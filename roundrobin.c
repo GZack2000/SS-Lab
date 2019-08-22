@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 void swap(int a[],int x, int y)
 {
 	int temp=a[x];
@@ -15,6 +16,7 @@ void main()
 	//printf("\nEnter no. of processes:\n");
 	//scanf("%d",&n);
 	n=rand()%5+1;
+	printf("\nNo. of processes: %d",n);
 	//printf("\nEnter the burst times and arrival times:\n");
 	for(i=0;i<n;i++)
 	{
@@ -26,8 +28,16 @@ void main()
 	}
 	//printf("\nEnter time quantum:\t");
 	//scanf("%d",&tslice);
-	tslice=rand()%5+1;	
+	tslice=rand()%5+2;	
+	printf("\nTime quantum:%d",tslice);
+	//printing randomly generated inputs
+	printf("\nProcess\tBurst time\tArrival Time");	
+	for(i=0;i<n;i++)
+	{
+		printf("\nP%d\t\t%d\t\t%d",i+1,bt[i],at[i]);
+	}
 	count=n;
+	//sorting according to arrival time
 	for(i=0;i<n;i++)
 	{
 		pos=i;
@@ -44,13 +54,13 @@ void main()
 	//printf("\ncount:%d",count);
 	
 	printf("\nProcess\tBurst time\tArrival Time\tCompletion time\tWaiting Time\tTurnaround Time\n");
-	for(i=0,time=0;count>0;)
+	for(i=0,time=at[0];count>0;)
 	{
 		//printf("\ncount in loop:%d",count);
-		//printf("\nTime:%d\trem[%d]:%d\tcount:%d",time,i,rem[i],count);
-		if(at[i]<=time)
+		//printf("\nTime:%d\trem[%d]:%d  at[%d]\tcount:%d",time,i,rem[i],at[i],count);
+		if(at[i]<=time) //if this process has arrived
 		{
-			//printf("\narrived");
+			//Last iteration of this process
 			if(rem[i]<=tslice && rem[i]>0)
 			{
 				//printf("\nlast iter");
@@ -67,13 +77,15 @@ void main()
 			}
 			else if(rem[i]>0)
 			{
-				//printf("\nnot last");
+				//NOT last iteration
 				rem[i]-=tslice;
 				time+=tslice;
 			}
 		}
+		else //if not arrived increment time
+			time++;
 		if(i==n-1)
-			i=0;
+			i=0;//for circular traversal
 		else
 			i++;
 	}

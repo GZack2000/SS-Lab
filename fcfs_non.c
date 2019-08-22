@@ -52,8 +52,7 @@ void main()
 			t-=wt[i];
 			wt[i]=0;
 		}
-		else
-			t+=bt[i];
+		t+=bt[i];
 		tt[i]=wt[i]+bt[i];
 		avgwt+=wt[i];
 		avgtt+=tt[i];

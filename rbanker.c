@@ -12,30 +12,39 @@ struct bank
 } p[10];
 void input(struct bank *s, int avail[10])
 {
-	printf("\nEnter available:\t");
+    srand(time(0));
+	//printf("\nEnter available:\t");
 	for(i=0;i<n;i++)
 	{
-		s[i].pid=i;
+		s[i].pid=(rand()%(999-100+1))+100;
 	}
 	for(i=0;i<m;i++)
 	{
-		scanf("%d",&avail[i]);
+		//scanf("%d",&avail[i]);
+        avail[i]=rand()%6;
 	}
-	printf("\nEnter max matrix:\t");
+//	printf("\nEnter max matrix:\t");
 	for(i=0;i<n;i++)
 	{
 		for(j=0;j<m;j++)
 		{
 			//	printf("\nEnter max[%d][%d]:\t",i,j);
-			scanf("%d",&s[i].max[j]);
+			//scanf("%d",&s[i].max[j]);
+            s[i].max[j]=rand()%6;
 		}
 	}
-	printf("\nEnter allocation matrix:\t");
+	//printf("\nEnter allocation matrix:\t");
+    int x;
 	for(i=0;i<n;i++)
 		for(j=0;j<m;j++)
 		{
 			//printf("\nEnter allocation[%d][%d]:\t",i,j);
-			scanf("%d",&s[i].alloc[j]);
+			//scanf("%d",&s[i].alloc[j]);
+            x=s[i].max[j];
+            if(x==0)
+                s[i].alloc[j]=0;
+            else
+                s[i].alloc[j]=rand()%x;
 			s[i].need[j]=s[i].max[j]-s[i].alloc[j];//calculating need
 		}
 }
@@ -91,7 +100,7 @@ bool safety(struct bank *s, int avail[10])
 				}
 				if(j==m)
 				{
-						printf("\nP%d over",i);
+						printf("\nP%d over",s[i].pid);
 					for(j=0;j<m;j++)
 					{
 							work[j]+=s[i].alloc[j];
@@ -160,10 +169,12 @@ void res_req(struct bank *s, int request[10],int pno,int avail[10])
 void main()
 {
 	int avail[10];
-	printf("\nEnter number of processes:\t");
-	scanf("%d",&n);
-	printf("\nEnter number of resource types:\t");
-	scanf("%d",&m);
+	//printf("\nEnter number of processes:\t");
+    //scanf("%d",&n);
+    n=rand()%5+1;
+	//printf("\nEnter number of resource types:\t");
+	//scanf("%d",&m);
+    m=rand()%4+1;
 	struct bank *ptr=p;
 	input(ptr,avail);
 	display(ptr,avail);
@@ -174,12 +185,16 @@ void main()
 	else
 	{
 		int pno,request[m];
-		printf("\nEnter process no that requests:\t");
-		scanf("%d",&pno);
-		printf("\nEnter request:\t");
-		for(i=0;i<m;i++)
+		//printf("\nEnter process no that requests:\t");
+		//scanf("%d",&pno);
+        pno=rand()%n;
+		//printf("\nEnter request:\t");
+		printf("\nP%d requests :\t",ptr[pno].pid);
+        for(i=0;i<m;i++)
 		{
-				scanf("%d",&request[i]);
+				//scanf("%d",&request[i]);
+                request[i]=rand()%6;
+                printf("%d",request[i]);
 		}
 		res_req(ptr,request,pno,avail);
 	}		

@@ -194,7 +194,7 @@ void main()
 		{
 				//scanf("%d",&request[i]);
                 request[i]=rand()%6;
-                printf("%d",request[i]);
+                printf("%d\t",request[i]);
 		}
 		res_req(ptr,request,pno,avail);
 	}		
